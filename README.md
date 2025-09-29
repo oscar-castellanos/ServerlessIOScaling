@@ -1,13 +1,12 @@
-# ServerlessYARN
+# ServerlessIOScaling
 
-This project provides a platform for the execution of Big Data workloads through Hadoop YARN in container-based clusters.
+This project provides a disk I/O scaling mechanism for workloads executed in containers. It is integrated into the serverless platform [ServerlessYARN](https://github.com/UDC-GAC/ServerlessYARN) as a forked repository.
 
-The platform provides a serverless environment that supports Singularity/Apptainer containers, scaling their allocated resources to fit them according to the usage in real time.
+The mechanism provides a serverless environment that supports Singularity/Apptainer containers, dynamically scaling their allocated disk I/O bandwidth based on real-time usage.
 
-It is provided an automatic way of deploying the platform through IaC tools such as Ansible, as well as a web interface to easily manage the platform and execute Big Data workloads. The serverless platform may be deployed on an existing physical cluster, or on a virtual cluster for testing purposes.
+The ServerlessYARN platform may be deployed either on an existing physical cluster or on a virtual cluster for testing purposes. It also includes automated deployment through Infrastructure-as-Code (IaC) tools such as Ansible, along with a web interface for simplified management.
 
-### More information
-> &Oacute;scar Castellanos-Rodr&iacute;guez, Roberto R. Exp&oacute;sito, Jonatan Enes, Guillermo L. Taboada, Juan Touriño, [Serverless-like platform for container-based YARN clusters](https://doi.org/10.1016/j.future.2024.02.013). Future Generation Computer Systems, 155:256-271, February 2024.
+By leveraging the I/O scaling mechanism, containers can be automatically deployed across the available infrastructure and disks, taking into account the current contention of each node and disk.
 
 ## Getting Started
 
@@ -19,7 +18,7 @@ It is provided an automatic way of deploying the platform through IaC tools such
 - VirtualBox
 - Vagrant plugins: vagrant-hostmanager, vagrant-reload, vagrant-vbguest
 
-> vagrant-reload plugin is only necessary when deploying nodes with cgroups V2
+> vagrant-reload plugin is only necessary when deploying nodes with cgroups V1
 
 You may install the vagrant plugins with the following commands:
 ```
@@ -37,29 +36,31 @@ vagrant plugin install vagrant-vbguest
 > Only one cluster node (i.e. master node) needs to have Ansible installed and a passwordless SSH login to the remaining ones
 
 ### Quickstart
-The Serverless platform need to be installed and deployed on the master node (or "server" node), while the containers will be deployed on the remaining cluster nodes (workers or "hosts").
+The serverless platform need to be installed and deployed on the master node (or "server" node), while the containers will be deployed on the remaining cluster nodes (workers or "hosts").
 
 - You can clone this repository and the required frameworks with
     ```
-    git clone --recurse-submodules https://github.com/UDC-GAC/ServerlessYARN.git
+    git clone --recurse-submodules https://github.com/oscar-castellanos/ServerlessIOScaling.git
     ```
 
 - Once cloned, change directory to the root directory
     ```
-    cd ServerlessYARN
+    cd ServerlessIOScaling
     ```
 
-- Modify **ansible/provisioning/config/config.yml** to customize your environment.
+- Modify the files in **ansible/provisioning/config/modules** to customize your environment.
+    > 02-hosts.yml and 04-disk.yml are the most relevant for the I/O scaling mechanism
 
 - You may deploy the virtual cluster with Vagrant (if needed):
     ```
     vagrant up
     ```
 
-- Inside the server node (you can use "vagrant ssh" to log in when using a virtual cluster) go to the **"ansible/provisioning/scripts"** directory within the platform root directory (accessible from **"/vagrant"** on the virtual cluster). Then, execute the scripts to install and set up all the necessary requirements for the platform and start its services:
+- Inside the server node (you can use "vagrant ssh" to log in when using a virtual cluster) go to the **"ansible/provisioning"** directory within the platform root directory (accessible from **"/vagrant"** on the virtual cluster). Then, execute the scripts to install and set up all the necessary requirements for the platform and start its services:
     ```
-    python3 load_inventory_from_conf.py
-    bash start_all.sh
+    ansible-playbook load_config_playbook.yml
+    python3 scripts/load_inventory_from_conf.py
+    bash scripts/start_all.sh
     ```
 
 **NOTE**: When deploying on a physical cluster that relies on SLURM for job scheduling, you can skip the execution of the **"load_inventory_from_conf.py"** script. The Ansible inventory will be automatically generated considering the available nodes. A sample script for sbatch is provided in the **"slurm"** directory.
@@ -102,7 +103,6 @@ You will see a Home page with 5 subpages:
 * **&Oacute;scar Castellanos-Rodr&iacute;guez** (https://gac.udc.es/~oscar.castellanos/)
 * **Roberto R. Exp&oacute;sito** (https://gac.udc.es/~rober/)
 * **Jonatan Enes** (https://gac.udc.es/~jonatan/)
-* **Guillermo L. Taboada** (https://gac.udc.es/~gltaboada/)
 * **Juan Touriño** (https://gac.udc.es/~juan/)
 
 ## License
