@@ -1,1 +1,0 @@
-export HADOOP_LOG_DIR={{ bind_dir_on_container }}/hadoop/logs
