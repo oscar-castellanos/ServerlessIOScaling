@@ -4,20 +4,22 @@
 ## Load variables from config file
 require 'yaml'
 current_dir    = File.dirname(File.expand_path(__FILE__))
-configs        = YAML.load_file("#{current_dir}/ansible/provisioning/config/config.yml")
+config_dir            = "#{current_dir}/ansible/provisioning/config/modules"
+general_config        = YAML.load_file("#{config_dir}/01-general.yml")
+host_config           = YAML.load_file("#{config_dir}/02-hosts.yml")
 
 ## Server
-SERVER_IP = configs['server_ip']
-CPU_SERVER_NODE = configs['cpus_server_node']
-MEMORY_SERVER_NODE = configs['memory_server_node']
-WEB_INTERFACE_PORT = configs['web_interface_port']
+SERVER_IP = host_config['server_ip']
+CPU_SERVER_NODE = host_config['cpus_server_node']
+MEMORY_SERVER_NODE = host_config['memory_server_node']
+WEB_INTERFACE_PORT = host_config['web_interface_port']
 
 ## Hosts
-N = configs['number_of_hosts']
-CPUS_PER_NODE = configs['cpus_per_host']
-MEMORY_PER_NODE = configs['memory_per_host']
+N = host_config['number_of_hosts']
+CPUS_PER_NODE = host_config['cpus_per_host']
+MEMORY_PER_NODE = host_config['memory_per_host']
 
-CGROUPS_VERSION = configs['cgroups_version']
+CGROUPS_VERSION = general_config['cgroups_version']
 
 Vagrant.configure("2") do |config|
 
