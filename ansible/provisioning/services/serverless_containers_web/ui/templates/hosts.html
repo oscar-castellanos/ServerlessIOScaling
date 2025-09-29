@@ -91,9 +91,11 @@
 					  <th>Path</th>
 					  <th>Load</th>
 					  <th>Free Read BW</th>
+					  <th>Read Ratio</th>
 					  <th>Max Read BW</th>
 					  <th>Free Write BW</th>
 					  <th>Max Write BW</th>
+					  <th>Write Ratio</th>
 				  </tr>
 				  <!-- rows -->
 				  {% for disk, disk_info in values.items %}
@@ -104,8 +106,10 @@
 					<td>{{ disk_info.load }}</td>
 					<td>{{ disk_info.free_read }}</td>
 					<td>{{ disk_info.max_read }}</td>
+					<td>{{ disk_info.read_ratio }}</td>
 					<td>{{ disk_info.free_write }}</td>
 					<td>{{ disk_info.max_write }}</td>
+					<td>{{ disk_info.write_ratio }}</td>
 				  </tr>
 				  {% endfor %}
 			  </table>

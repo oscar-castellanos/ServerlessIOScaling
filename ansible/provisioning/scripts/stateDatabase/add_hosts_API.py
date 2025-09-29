@@ -67,8 +67,10 @@ if __name__ == "__main__":
                     new_disk['path'] = disks[disk]['path']
                     new_disk['max_read']  = disks[disk]['read_bw']
                     new_disk['free_read'] = disks[disk]['read_bw']
+                    new_disk['read_ratio'] = disks[disk]['read_bw']/disks[disk]['random_read_bw']
                     new_disk['max_write']  = disks[disk]['write_bw']
                     new_disk['free_write'] = disks[disk]['write_bw']
+                    new_disk['write_ratio'] = disks[disk]['write_bw']/disks[disk]['random_write_bw']
                     new_disk['load'] = 0
                     if   "ssd" in disk: new_disk['type'] = "SSD"
                     elif "hdd" in disk: new_disk['type'] = "HDD"
