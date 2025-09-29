@@ -1,0 +1,16 @@
+## Resource configuration to load into State Database
+name: fio_sample
+cpu_max: 100
+cpu_min: 100
+mem_max: 1024
+mem_min: 1024
+disk_read_max: 1200
+disk_read_min: 10
+disk_read_weight: 1
+disk_write_max: 300
+disk_write_min: 10
+disk_write_weight: 1
+
+install_script: install.sh
+start_script: start.sh
+stop_script: stop.sh

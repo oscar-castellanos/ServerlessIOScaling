@@ -11,10 +11,4 @@ ansible/provisioning/apps/*
 !ansible/provisioning/apps/README.md
 !ansible/provisioning/apps/sample_app/
 !ansible/provisioning/apps/hadoop_app/
-!ansible/provisioning/apps/hadoop_sample/
-!ansible/provisioning/apps/spark_sample/
-!ansible/provisioning/apps/spark_standalone/
-!ansible/provisioning/apps/npb_app/
-!ansible/provisioning/apps/smusket_app/
-!ansible/provisioning/apps/xairugo/
-!ansible/provisioning/apps/hdfs_sample/
+!ansible/provisioning/apps/fio_sample/
